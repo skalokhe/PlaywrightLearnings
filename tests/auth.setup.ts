@@ -1,5 +1,6 @@
 import { test as setup, expect } from "@playwright/test";
 import { LoginPage } from "../lib/pages/login.page";
+import { registerUser } from "../lib/datafactory/register";
 
 setup("Create customer 01 auth", async ({ page, context }) => {
   const email = "customer@practicesoftwaretesting.com";
@@ -12,4 +13,16 @@ setup("Create customer 01 auth", async ({ page, context }) => {
 
   await expect(page.getByTestId("nav-menu")).toContainText("Jane Doe");
   await context.storageState({ path: customer01AuthFile });
+});
+
+setup("Login with newly registered user", async ({ page }) => {
+  const email = `test${Date.now()}@test.com`;
+  const password = "skTest8432@";
+  await registerUser(email, password);
+  const loginPage = new LoginPage(page);
+  await loginPage.goto();
+  await loginPage.login(email, password);
+
+  await expect(page.getByTestId("nav-menu")).toContainText("sonal45");
+  await expect(page.getByTestId("page-title")).toContainText("My account");
 });

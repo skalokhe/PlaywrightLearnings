@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 
+
 test("login without page object", async ({ page }) => {
   await page.goto("https://practicesoftwaretesting.com/");
   await page.locator('[data-test="nav-sign-in"]').click();
@@ -15,3 +16,4 @@ test("login without page object", async ({ page }) => {
     "My account"
   );
 });
+
